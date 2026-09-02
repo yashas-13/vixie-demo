@@ -1,7 +1,7 @@
 {
   "name": "vixie",
   "version": "1.0.0",
-  "description": "AI-powered product demo video generator — URL to professional MP4 with voiceover",
+  "description": "AI-powered product demo video generator \u2014 URL to professional MP4 with voiceover",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
@@ -11,7 +11,8 @@
     "build": "tsc",
     "dev": "tsx src/cli.ts",
     "start": "node dist/cli.js",
-    "serve": "tsx src/api/server.ts"
+    "serve": "tsx src/api/server.ts",
+    "test": "npm run build && node --test test/"
   },
   "keywords": [
     "demo",

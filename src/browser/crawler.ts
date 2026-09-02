@@ -40,8 +40,11 @@ export async function crawlWebsite(
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
   });
 
+  const { width, height } = config.resolutionDimensions;
+
   const context = await browser.newContext({
-    viewport: { width: 1920, height: 1080 },
+    viewport: { width, height },
+    deviceScaleFactor: 1,
     userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
   });
   const page = await context.newPage();
@@ -71,7 +74,7 @@ export async function crawlWebsite(
     console.log(`  📸 Capturing page ${pageCount}: ${url}`);
 
     const screenshotKey = `page-${pageCount}`;
-    const screenshotBuffer = await page.screenshot({ type: 'png', fullPage: true });
+    const screenshotBuffer = await page.screenshot({ type: 'png' });
     screenshots.set(screenshotKey, screenshotBuffer);
     writeFileSync(join(screenshotsDir, `${screenshotKey}.png`), screenshotBuffer);
 

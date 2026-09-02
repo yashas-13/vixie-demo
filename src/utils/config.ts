@@ -16,9 +16,22 @@ export interface VixieConfig {
   dryRun: boolean;
   openaiApiKey: string | null;
   elevenlabsApiKey: string | null;
+  resolutionDimensions: { width: number; height: number };
 }
 
-export const DEFAULT_CONFIG: VixieConfig = {
+export const RESOLUTION_MAP = {
+  '720p': { width: 1280, height: 720 },
+  '1080p': { width: 1920, height: 1080 },
+  '4K': { width: 3840, height: 2160 },
+} as const;
+
+function withDimensions(cfg: VixieConfig): VixieConfig {
+  const dims = RESOLUTION_MAP[cfg.resolution];
+  (cfg as VixieConfig).resolutionDimensions = { width: dims.width, height: dims.height };
+  return cfg;
+}
+
+const BASE_CONFIG: Omit<VixieConfig, 'resolutionDimensions'> = {
   url: '',
   output: 'demo.mp4',
   voice: 'en-US-JennyNeural',
@@ -36,12 +49,9 @@ export const DEFAULT_CONFIG: VixieConfig = {
   elevenlabsApiKey: process.env.ELEVENLABS_API_KEY ?? null,
 };
 
-export const RESOLUTION_MAP = {
-  '720p': { width: 1280, height: 720 },
-  '1080p': { width: 1920, height: 1080 },
-  '4K': { width: 3840, height: 2160 },
-} as const;
+export const DEFAULT_CONFIG: VixieConfig = withDimensions(BASE_CONFIG as VixieConfig);
 
 export function resolveConfig(overrides: Partial<VixieConfig>, url: string): VixieConfig {
-  return { ...DEFAULT_CONFIG, ...overrides, url };
+  const cfg = { ...DEFAULT_CONFIG, ...overrides, url };
+  return withDimensions(cfg);
 }
