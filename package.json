@@ -1,0 +1,51 @@
+{
+  "name": "vixie",
+  "version": "1.0.0",
+  "description": "AI-powered product demo video generator — URL to professional MP4 with voiceover",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "vixie": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli.ts",
+    "start": "node dist/cli.js",
+    "serve": "tsx src/api/server.ts"
+  },
+  "keywords": [
+    "demo",
+    "video",
+    "ai",
+    "product-demo",
+    "screen-recording",
+    "tts",
+    "voiceover"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.122.0",
+    "@browserbasehq/stagehand": "^3.7.3",
+    "chalk": "^5.4.1",
+    "commander": "^13.1.0",
+    "edge-tts-universal": "^1.4.0",
+    "express": "^5.1.0",
+    "openai": "^7.8.0",
+    "ora": "^8.2.0",
+    "playwright-core": "^1.62.1",
+    "sharp": "^0.35.4",
+    "ws": "^8.18.0",
+    "yaml": "^2.7.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.15.0",
+    "@types/ws": "^8.18.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.0"
+  }
+}

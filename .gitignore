@@ -1,0 +1,11 @@
+node_modules/
+dist/
+*.log
+.env
+.env.local
+demo/stripe*.mp4
+demo/*.mp4
+demo/*.gif
+*.png
+!assets/**/*.png
+!.gitkeep
