@@ -1,0 +1,63 @@
+
+══════════════════════════════════════════════════════════════════════
+  🎬  VIXIE VIDEO ANALYZER — COMPREHENSIVE QUALITY REPORT
+══════════════════════════════════════════════════════════════════════
+
+  📋 VIDEO METADATA
+──────────────────────────────────────────────────────────────────────
+  File:          /root/stripe-v3-narrated.mp4
+  Size:          1.34 MB (1,407,316 bytes)
+  Duration:      72.917s
+  Resolution:    1280×720
+  Aspect Ratio:  16:9
+  Codec:         h264 (High)
+  Pixel Format:  yuv420p
+  Frame Rate:    24 fps
+  Total Frames:  1749
+  Bitrate:       154 kbps
+  Audio:         aac @ 24000Hz 1ch
+
+  🔍 ANNOTATION DETECTION PER FRAME
+──────────────────────────────────────────────────────────────────────
+  Frame                    Arrow        Glow         Label        Cursor     Button     DimBg      Dens    
+  ────────────────────────────────────────────────────────────────────
+  analyzed-frame-000.png❌0.00%      ❌0.00%      ❌0.39%      ❌60638px    ✅0.6%     ✅15.9%    15.39%
+  analyzed-frame-001.png✅0.45%      ✅0.32%      ✅2.35%      ❌681249px   ✅1.1%     ✅13.7%    18.12%
+  analyzed-frame-002.png✅0.46%      ✅0.31%      ✅2.35%      ❌681477px   ✅1.2%     ✅13.7%    18.12%
+  analyzed-frame-003.png✅0.46%      ✅0.31%      ✅2.36%      ❌681479px   ✅1.2%     ✅13.7%    18.13%
+  analyzed-frame-004.png✅0.45%      ✅0.31%      ✅2.36%      ❌681326px   ✅1.2%     ✅13.7%    18.13%
+  analyzed-frame-005.png❌0.00%      ❌0.00%      ❌0.39%      ❌60657px    ❌0.6%     ✅15.9%    15.39%
+
+  🎨 VISUAL VERIFICATION OVERLAYS
+──────────────────────────────────────────────────────────────────────
+  📄 /tmp/vcheck8/verification/verification-analyzed-frame-000.png
+  📄 /tmp/vcheck8/verification/verification-analyzed-frame-001.png
+  📄 /tmp/vcheck8/verification/verification-analyzed-frame-002.png
+  📄 /tmp/vcheck8/verification/verification-analyzed-frame-003.png
+  📄 /tmp/vcheck8/verification/verification-analyzed-frame-004.png
+  📄 /tmp/vcheck8/verification/verification-analyzed-frame-005.png
+
+  ✅ QUALITY CHECKS
+──────────────────────────────────────────────────────────────────────
+  ✅ Resolution               1280×720 (HD)
+  ✅ Aspect Ratio             16:9 (standard)
+  ✅ Duration                 72.917s (good)
+  ✅ Frame Rate               24 fps
+  ✅ Codec                    h264 High
+  ✅ Bitrate                  154 kbps
+  ✅ Audio                    aac 24000Hz 1ch 
+  ✅ File Size                1.34 MB
+  ✅ Annotation Coverage      6/6 frames have annotations
+  ✅ Arrows Present           4/6 frames show arrows
+  ✅ Glow Effects             4/6 frames show glow effects
+  ✅ Labels/Captions          4/6 frames have labels
+  ✅ Dim Background           6/6 frames have dim overlays
+  ✅ Cursor/Pointer           0/6 frames show cursor
+  ✅ Buttons/CTAs             5/6 frames show buttons
+  ✅ Annotation Density       Avg 17.213% — annotations may be too subtle
+  ⚠️ Scene Transitions        0 annotation transitions across 6 frames
+
+──────────────────────────────────────────────────────────────────────
+  SCORE: 96/100  │  ✅ 16 passed  │  ⚠️ 1 warnings  │  🔴 0 failed
+  VERDICT: PASS
+══════════════════════════════════════════════════════════════════════
