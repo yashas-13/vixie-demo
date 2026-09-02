@@ -4,7 +4,7 @@ export interface VixieConfig {
   url: string;
   output: string;
   voice: string;
-  ttsProvider: 'edge' | 'openai' | 'elevenlabs';
+  ttsProvider: 'kokoro' | 'edge' | 'openai' | 'elevenlabs';
   style: DemoStyle;
   cursor: 'animated' | 'none';
   rich: boolean;
@@ -34,8 +34,8 @@ function withDimensions(cfg: VixieConfig): VixieConfig {
 const BASE_CONFIG: Omit<VixieConfig, 'resolutionDimensions'> = {
   url: '',
   output: 'demo.mp4',
-  voice: 'en-US-JennyNeural',
-  ttsProvider: 'edge',
+  voice: 'af_heart',
+  ttsProvider: 'kokoro',
   style: 'professional',
   cursor: 'animated',
   rich: false,

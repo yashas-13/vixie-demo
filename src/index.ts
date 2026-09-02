@@ -10,6 +10,7 @@ import { analyzeWithVision } from './analysis/vision.js';
 import { generateScript } from './script/generator.js';
 import { annotateFrame } from './annotations/compositor.js';
 import { synthesizeWithEdge, getVoicePreset } from './voice/edge-tts.js';
+import { synthesizeWithKokoro, getKokoroVoicePreset } from './voice/kokoro-tts.js';
 import { synthesizeWithOpenAI, getOpenAIVoicePreset } from './voice/openai-tts.js';
 import { synthesizeWithElevenLabs, getElevenLabsPreset } from './voice/elevenlabs-tts.js';
 import { concatAudioSegments, mixWithBackgroundMusic, normalizeAudio, type AudioSegment } from './voice/mixer.js';
@@ -218,6 +219,11 @@ async function synthesizeVoice(
   emotion: 'warm' | 'energetic' | 'calm' | 'dramatic' = 'warm',
 ): Promise<void> {
   switch (config.ttsProvider) {
+    case 'kokoro': {
+      const kokoroConfig = getKokoroVoicePreset(config.voice);
+      await synthesizeWithKokoro(text, outputPath, kokoroConfig);
+      break;
+    }
     case 'edge': {
       const voiceConfig = getVoicePreset(config.voice);
       await synthesizeWithEdge(text, outputPath, voiceConfig, { emotion });

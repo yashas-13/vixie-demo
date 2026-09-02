@@ -19,7 +19,7 @@ program
   .argument('<url>', 'Website URL to create demo for')
   .option('-o, --output <path>', 'Output file path', 'demo.mp4')
   .option('--voice <name>', 'TTS voice name or preset', 'en-US-JennyNeural')
-  .option('--tts <provider>', 'TTS provider: edge | openai | elevenlabs', 'edge')
+  .option('--tts <provider>', 'TTS provider: kokoro | edge | openai | elevenlabs', 'kokoro')
   .option('--style <style>', 'Demo style: professional | casual | technical', 'professional')
   .option('--cursor <mode>', 'Cursor mode: animated | none', 'animated')
   .option('--rich', 'Use Remotion for rich video composition', false)
@@ -35,7 +35,7 @@ program
     const config = resolveConfig({
       output: opts.output,
       voice: opts.voice,
-      ttsProvider: opts.tts,
+      ttsProvider: (opts.tts === 'kokoro' || opts.tts === 'edge' || opts.tts === 'openai' || opts.tts === 'elevenlabs' ? opts.tts : 'kokoro') as any,
       style: opts.style,
       cursor: opts.cursor,
       rich: opts.rich,
