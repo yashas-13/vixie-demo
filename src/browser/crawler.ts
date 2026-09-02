@@ -40,10 +40,12 @@ export async function crawlWebsite(
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
   });
 
-  const { width, height } = config.resolutionDimensions;
+  const isShorts = config.format === 'shorts';
+  const viewWidth = isShorts ? config.resolutionDimensions.width : config.resolutionDimensions.width;
+  const viewHeight = isShorts ? 800 : config.resolutionDimensions.height; // tall viewport for scroll detection
 
   const context = await browser.newContext({
-    viewport: { width, height },
+    viewport: { width: viewWidth, height: viewHeight },
     deviceScaleFactor: 1,
     userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
   });
@@ -74,7 +76,8 @@ export async function crawlWebsite(
     console.log(`  📸 Capturing page ${pageCount}: ${url}`);
 
     const screenshotKey = `page-${pageCount}`;
-    const screenshotBuffer = await page.screenshot({ type: 'png' });
+    const isShorts = config.format === 'shorts';
+    const screenshotBuffer = await page.screenshot({ type: 'png', fullPage: isShorts });
     screenshots.set(screenshotKey, screenshotBuffer);
     writeFileSync(join(screenshotsDir, `${screenshotKey}.png`), screenshotBuffer);
 

@@ -15,6 +15,7 @@ import { synthesizeWithOpenAI, getOpenAIVoicePreset } from './voice/openai-tts.j
 import { synthesizeWithElevenLabs, getElevenLabsPreset } from './voice/elevenlabs-tts.js';
 import { concatAudioSegments, mixWithBackgroundMusic, normalizeAudio, type AudioSegment } from './voice/mixer.js';
 import { composeWithFfmpeg } from './video/ffmpeg-composer.js';
+import { composeShortsVideo } from './video/shorts-composer.js';
 
 export interface GenerateResult {
   outputPath: string;
@@ -194,16 +195,30 @@ export async function generateDemo(config: VixieConfig): Promise<GenerateResult>
   // ── Stage 7: Compose Video ──────────────────────────────
   spinner.start('🎬 Composing video...');
 
-  await composeWithFfmpeg({
-    frameDir: annotatedDir,
-    audioPath: finalAudioPath,
-    outputPath: config.output,
-    fps: 30,
-    transition: 'fade',
-    transitionDuration: 0.5,
-    resolution,
-    kenBurns: true,
-  });
+  if (config.format === 'shorts') {
+    // Shorts mode: vertical scrolling video from full-page screenshots
+    await composeShortsVideo({
+      screenshotDir: join(outputDir, 'screenshots'),
+      audioPath: finalAudioPath,
+      outputPath: config.output,
+      resolution,
+      fps: 30,
+      transition: 'fade',
+      transitionDuration: 0.5,
+    });
+  } else {
+    // Standard landscape mode: annotated frames with transitions
+    await composeWithFfmpeg({
+      frameDir: annotatedDir,
+      audioPath: finalAudioPath,
+      outputPath: config.output,
+      fps: 30,
+      transition: 'fade',
+      transitionDuration: 0.5,
+      resolution,
+      kenBurns: true,
+    });
+  }
 
   const elapsed = Date.now() - startTime;
   spinner.succeed(chalk.green(`✨ Demo video created: ${config.output}`));

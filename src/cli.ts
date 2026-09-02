@@ -23,7 +23,8 @@ program
   .option('--style <style>', 'Demo style: professional | casual | technical', 'professional')
   .option('--cursor <mode>', 'Cursor mode: animated | none', 'animated')
   .option('--rich', 'Use Remotion for rich video composition', false)
-  .option('--resolution <res>', 'Resolution: 720p | 1080p | 4K', '1080p')
+  .option('--resolution <res>', 'Resolution: 720p | 1080p | 4K | shorts720p | shorts1080p', '1080p')
+    .option('--shorts', 'Vertical shorts mode (9:16, full-page scrolling)', false)
   .option('--max-pages <n>', 'Max pages to crawl', '3')
   .option('--duration <seconds>', 'Target duration in seconds', 'auto')
   .option('--sections <list>', 'Comma-separated sections to demo')
@@ -39,7 +40,8 @@ program
       style: opts.style,
       cursor: opts.cursor,
       rich: opts.rich,
-      resolution: opts.resolution,
+      resolution: opts.shorts ? 'shorts1080p' : opts.resolution,
+      format: opts.shorts ? 'shorts' : undefined,
       maxPages: parseInt(opts.maxPages, 10),
       duration: opts.duration === 'auto' ? 'auto' : parseInt(opts.duration, 10),
       sections: opts.sections ? opts.sections.split(',') : 'all',

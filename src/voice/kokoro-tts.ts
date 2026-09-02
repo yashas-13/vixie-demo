@@ -102,7 +102,7 @@ export async function synthesizeWithKokoro(
 }
 
 export function getKokoroVoicePreset(name: string): Partial<KokoroTTSConfig> {
-  return KOKORO_VOICE_PRESETS[name] ?? { voice: name };
+  return KOKORO_VOICE_PRESETS[name] ?? { voice: DEFAULT_KOKORO_TTS.voice };
 }
 
 export function listKokoroVoices(): Array<{ id: string; label: string }> {
