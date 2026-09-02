@@ -1,5 +1,6 @@
 import { Communicate } from 'edge-tts-universal';
 import { writeFileSync } from 'fs';
+import { applyProsody, enhanceIntroOutro, type ProsodyOptions } from './prosody.js';
 
 export interface EdgeTTSConfig {
   voice: string;
@@ -15,42 +16,92 @@ export const DEFAULT_EDGE_VOICE: EdgeTTSConfig = {
   volume: '+0%',
 };
 
+/**
+ * Voice presets optimized for emotional, human-like narration.
+ * Voice choices are based on personality traits:
+ * - JennyNeural: Warm, professional, versatile
+ * - AriaNeural: Friendly, expressive, approachable
+ * - GuyNeural: Deep, confident, authoritative
+ * - DavisNeural: Smooth, energetic, charismatic
+ * - SoniaNeural: Elegant, clear, British warmth
+ * - RyanNeural: Conversational, warm Irish
+ * - EmmaMultilingualNeural: Multilingual, bright
+ * - MichelleNeural: Young, energetic, casual
+ */
 export const VOICE_PRESETS: Record<string, Partial<EdgeTTSConfig>> = {
-  'en-female-jenny': { voice: 'en-US-JennyNeural' },
-  'en-female-aria': { voice: 'en-US-AriaNeural' },
-  'en-male-guy': { voice: 'en-US-GuyNeural', pitch: '-2Hz' },
-  'en-male-davis': { voice: 'en-US-DavisNeural', pitch: '-3Hz' },
-  'en-female-sonia': { voice: 'en-GB-SoniaNeural' },
-  'en-male-ryan': { voice: 'en-IE-RyanNeural', pitch: '-1Hz' },
-  'en-india-prabhat': { voice: 'en-IN-PrabhatNeural', pitch: '-1Hz' },
-  'en-australia-william': { voice: 'en-AU-WilliamNeural', pitch: '-2Hz' },
+  // Expressive female voices
+  'en-female-jenny':   { voice: 'en-US-JennyNeural' },
+  'en-female-aria':    { voice: 'en-US-AriaNeural' },
+  'en-female-emma':    { voice: 'en-US-EmmaMultilingualNeural' },
+  'en-female-michelle':{ voice: 'en-US-MichelleNeural' },
+  // Expressive male voices
+  'en-male-guy':       { voice: 'en-US-GuyNeural' },
+  'en-male-davis':     { voice: 'en-US-DavisNeural' },
+  'en-male-andrew':    { voice: 'en-US-AndrewNeural' },
+  'en-male-brian':     { voice: 'en-US-BrianNeural' },
+  // British / international warmth
+  'en-female-sonia':   { voice: 'en-GB-SoniaNeural' },
+  'en-male-ryan':      { voice: 'en-IE-RyanNeural' },
+  'en-india-prabhat':  { voice: 'en-IN-PrabhatNeural' },
+  'en-australia-william': { voice: 'en-AU-WilliamNeural' },
 };
 
 export async function synthesizeWithEdge(
   text: string,
   outputPath: string,
   config: Partial<EdgeTTSConfig> = {},
+  prosody: Partial<ProsodyOptions> = {},
 ): Promise<{ outputPath: string; durationMs: number }> {
   const merged = { ...DEFAULT_EDGE_VOICE, ...config };
 
-  const communicate = new Communicate(text, {
-    voice: merged.voice,
-    rate: merged.rate,
-    pitch: merged.pitch,
-    volume: merged.volume,
+  // Apply emotional prosody — split into per-sentence chunks with varied rate/pitch
+  const emotion = prosody.emotion ?? 'warm';
+  const chunks = applyProsody(text, {
+    baseRate: merged.rate,
+    basePitch: merged.pitch,
+    baseVolume: merged.volume,
+    emotion,
   });
 
-  const audioChunks: Buffer[] = [];
-  for await (const chunk of communicate.stream()) {
-    if (chunk.type === 'audio' && chunk.data) {
-      audioChunks.push(Buffer.isBuffer(chunk.data) ? chunk.data : Buffer.from(chunk.data));
+  // Synthesize each prosody chunk with its own rate/pitch, then concatenate
+  const audioBuffers: Buffer[] = [];
+
+  for (const chunk of chunks) {
+    // Skip pause/empty chunks (pure silence) — no text to synthesize
+    const chunkText = chunk.text.trim();
+    const hasReadableWords = /[a-zA-Z0-9]/.test(chunkText);
+    if (!hasReadableWords || chunkText.length <= 1) {
+      // Generate ~200ms natural breathing silence using ffmpeg
+      try {
+        const { execSync } = await import('child_process');
+        const silenceBuf = execSync(
+          `ffmpeg -y -f lavfi -i anullsrc=r=24000:cl=mono -t 0.2 -c:a libmp3lame -q:a 9 -b:a 16k pipe:1`,
+          { encoding: 'buffer', stdio: ['pipe', 'pipe', 'pipe'] },
+        );
+        audioBuffers.push(Buffer.from(silenceBuf as Buffer));
+      } catch { /* skip silence if ffmpeg fails */ }
+      continue;
+    }
+
+    const communicate = new Communicate(chunk.text, {
+      voice: merged.voice,
+      rate: chunk.rate,
+      pitch: chunk.pitch,
+      volume: chunk.volume,
+    });
+
+    for await (const c of communicate.stream()) {
+      if (c.type === 'audio' && c.data) {
+        audioBuffers.push(Buffer.isBuffer(c.data) ? c.data : Buffer.from(c.data));
+      }
     }
   }
 
-  const audioBuffer = Buffer.concat(audioChunks);
+  const audioBuffer = Buffer.concat(audioBuffers);
   writeFileSync(outputPath, audioBuffer);
 
-  const durationMs = Math.round((audioBuffer.length / 16000) * 1000);
+  // Duration estimate based on MP3 bitrate (24kHz mono = ~32kbps typical)
+  const durationMs = Math.round((audioBuffer.length / (24000 * 0.02)) * 1000 / 1000);
 
   return { outputPath, durationMs };
 }

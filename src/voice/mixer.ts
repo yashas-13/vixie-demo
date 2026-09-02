@@ -24,7 +24,7 @@ export async function concatAudioSegments(
   // Create a silent audio file for gaps
   const silencePath = join(tmpdir(), 'vixie-silence.mp3');
   execSync(
-    `ffmpeg -y -f lavfi -i anullsrc=r=44100:cl=mono -t 0.3 -q:a 9 "${silencePath}"`,
+    `ffmpeg -y -f lavfi -i anullsrc=r=44100:cl=mono -t 0.45 -q:a 9 "${silencePath}"`,
     { stdio: 'pipe' },
   );
 

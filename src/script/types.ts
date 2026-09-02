@@ -7,6 +7,7 @@ export interface ScriptSegment {
   durationSeconds: number;
   visual: VisualDirection;
   transition: 'fade' | 'slide' | 'cut' | 'zoom';
+  emotion?: 'warm' | 'energetic' | 'calm' | 'dramatic';
 }
 
 export interface VisualDirection {
@@ -23,4 +24,5 @@ export interface DemoScript {
   segments: ScriptSegment[];
   intro: string;
   outro: string;
+  emotion?: 'warm' | 'energetic' | 'calm' | 'dramatic';
 }

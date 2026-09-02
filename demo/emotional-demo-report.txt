@@ -1,0 +1,67 @@
+
+══════════════════════════════════════════════════════════════════════
+  🎬  VIXIE VIDEO ANALYZER — COMPREHENSIVE QUALITY REPORT
+══════════════════════════════════════════════════════════════════════
+
+  📋 VIDEO METADATA
+──────────────────────────────────────────────────────────────────────
+  File:          /tmp/emotional-final.mp4
+  Size:          1.37 MB (1,441,197 bytes)
+  Duration:      73.366667s
+  Resolution:    1280×720
+  Aspect Ratio:  16:9
+  Codec:         h264 (High)
+  Pixel Format:  yuv420p
+  Frame Rate:    30 fps
+  Total Frames:  2201
+  Bitrate:       157 kbps
+  Audio:         aac @ 48000Hz 1ch
+
+  🔍 ANNOTATION DETECTION PER FRAME
+──────────────────────────────────────────────────────────────────────
+  Frame                    Arrow        Glow         Label        Cursor     Button     DimBg      Dens    
+  ────────────────────────────────────────────────────────────────────
+  analyzed-frame-000.png❌0.00%      ❌0.00%      ✅2.69%      ❌176px      ✅1.4%     ✅69.8%    17.69%
+  analyzed-frame-001.png❌0.00%      ❌0.00%      ✅2.69%      ✅317px      ✅1.4%     ✅69.8%    17.69%
+  analyzed-frame-002.png❌0.00%      ❌0.00%      ✅2.67%      ✅318px      ✅1.4%     ✅69.9%    17.67%
+  analyzed-frame-003.png❌0.00%      ❌0.00%      ✅2.67%      ✅318px      ✅1.4%     ✅69.9%    17.67%
+  analyzed-frame-004.png❌0.00%      ❌0.00%      ✅2.70%      ❌319px      ✅1.4%     ✅69.9%    17.70%
+  analyzed-frame-005.png❌0.00%      ❌0.00%      ✅2.69%      ✅321px      ✅1.4%     ✅69.8%    17.69%
+  analyzed-frame-006.png❌0.00%      ❌0.00%      ✅2.69%      ✅322px      ✅1.4%     ✅69.9%    17.69%
+  analyzed-frame-007.png❌0.00%      ❌0.00%      ✅2.70%      ❌184px      ✅1.4%     ✅69.9%    17.70%
+
+  🎨 VISUAL VERIFICATION OVERLAYS
+──────────────────────────────────────────────────────────────────────
+  📄 /tmp/emotional-final-analysis/verification/verification-analyzed-frame-000.png
+  📄 /tmp/emotional-final-analysis/verification/verification-analyzed-frame-001.png
+  📄 /tmp/emotional-final-analysis/verification/verification-analyzed-frame-002.png
+  📄 /tmp/emotional-final-analysis/verification/verification-analyzed-frame-003.png
+  📄 /tmp/emotional-final-analysis/verification/verification-analyzed-frame-004.png
+  📄 /tmp/emotional-final-analysis/verification/verification-analyzed-frame-005.png
+  📄 /tmp/emotional-final-analysis/verification/verification-analyzed-frame-006.png
+  📄 /tmp/emotional-final-analysis/verification/verification-analyzed-frame-007.png
+
+  ✅ QUALITY CHECKS
+──────────────────────────────────────────────────────────────────────
+  ✅ Resolution               1280×720 (HD)
+  ✅ Aspect Ratio             16:9 (standard)
+  ✅ Duration                 73.366667s (good)
+  ✅ Frame Rate               30 fps
+  ✅ Codec                    h264 High
+  ✅ Bitrate                  157 kbps
+  ✅ Audio                    aac 48000Hz 1ch 
+  ✅ File Size                1.37 MB
+  ✅ Annotation Coverage      8/8 frames have annotations
+  ⚠️ Arrows Present           0/8 frames show arrows
+  ⚠️ Glow Effects             0/8 frames show glow effects
+  ✅ Labels/Captions          8/8 frames have labels
+  ✅ Dim Background           8/8 frames have dim overlays
+  ✅ Cursor/Pointer           5/8 frames show cursor
+  ✅ Buttons/CTAs             8/8 frames show buttons
+  ✅ Annotation Density       Avg 17.688% — annotations may be too subtle
+  ⚠️ Scene Transitions        0 annotation transitions across 8 frames
+
+──────────────────────────────────────────────────────────────────────
+  SCORE: 88/100  │  ✅ 14 passed  │  ⚠️ 3 warnings  │  🔴 0 failed
+  VERDICT: PASS
+══════════════════════════════════════════════════════════════════════

@@ -96,19 +96,19 @@ export async function generateDemo(config: VixieConfig): Promise<GenerateResult>
   const audioDir = join(outputDir, 'audio');
 
   const introPath = join(audioDir, 'intro.mp3');
-  await synthesizeVoice(config, script.intro, introPath);
+  await synthesizeVoice(config, script.intro, introPath, script.emotion ?? 'warm');
 
   const audioSegments: AudioSegment[] = [];
   for (let i = 0; i < script.segments.length; i++) {
     const seg = script.segments[i];
     const segPath = join(audioDir, `segment-${i}.mp3`);
-    await synthesizeVoice(config, seg.narration, segPath);
+    await synthesizeVoice(config, seg.narration, segPath, seg.emotion ?? 'warm');
     const segDuration = estimateDuration(seg.narration);
     audioSegments.push({ path: segPath, startMs: 0, durationMs: segDuration });
   }
 
   const outroPath = join(audioDir, 'outro.mp3');
-  await synthesizeVoice(config, script.outro, outroPath);
+  await synthesizeVoice(config, script.outro, outroPath, script.emotion ?? 'warm');
   spinner.succeed('Voice synthesis complete');
 
   // ── Stage 5: Mix Audio ──────────────────────────────────
@@ -215,11 +215,12 @@ async function synthesizeVoice(
   config: VixieConfig,
   text: string,
   outputPath: string,
+  emotion: 'warm' | 'energetic' | 'calm' | 'dramatic' = 'warm',
 ): Promise<void> {
   switch (config.ttsProvider) {
     case 'edge': {
       const voiceConfig = getVoicePreset(config.voice);
-      await synthesizeWithEdge(text, outputPath, voiceConfig);
+      await synthesizeWithEdge(text, outputPath, voiceConfig, { emotion });
       break;
     }
     case 'openai': {
